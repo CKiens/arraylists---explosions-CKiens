@@ -1,0 +1,85 @@
+ArrayList<Shape> shapes = new ArrayList<Shape>();
+int shapeNumber;
+int shape;
+
+void setup() {
+  size(300, 300);
+}
+
+// increases shapeNumber, thus changing the shape shown when clicked
+void mousePressed(){
+  for(int i = 0; i < 100; i++){
+    shapes.add(new Shape(mouseX, mouseY, shapeNumber));   
+  }
+  if (shapeNumber<=3){
+     shapeNumber+=1;
+  
+  }else{
+     shapeNumber=1;
+  }
+}
+
+void draw() {
+  background(200);
+  println(shapeNumber);
+  for (int i = shapes.size()-1; i >= 0; i--) {
+    shapes.get(i).move();
+    shapes.get(i).display();
+  if(shapes.get(i).isOffScreen()){
+      shapes.remove(i);
+    }
+    
+  }
+}
+
+class Shape {
+
+  float x;
+  float y;
+  float xSpeed = random(-3, 3);
+  float ySpeed = random(-3, 3);
+  float gravity=0.05;          
+  int displayShape;
+  
+  
+  Shape(float x, float y, int shape){
+    this.x = x;
+    this.y = y;
+    this.displayShape = shape;
+  }
+ //adds gravity, makes objects accelerate downwards
+  void move() {
+    ySpeed += gravity;
+    x += xSpeed;
+    y += ySpeed;
+  }
+//changes shape displayed based on displayShape (which is affected by global int shapeNumber)
+  void display() {
+    if (displayShape == 1){
+      ellipse(x, y, 20, 20);
+    }
+    else if (displayShape == 2){
+      rect(x, y, 20, 20);
+    }
+    else if (displayShape == 3){
+      triangle(x, y, x+20, y+20, x-20, y+20);
+    }
+    else if (displayShape == 4){
+      quad(x, y, x+20, y, x, y+20, x+10, y+10);
+    }
+  
+    
+    
+  
+  
+    
+    
+  }
+  boolean isOffScreen(){
+    return x < 0 || x > width || y < 0 || y > height;
+  }
+ 
+  
+    
+  
+}
